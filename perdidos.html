@@ -1,20 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detector de perros perdidos</title>
+<html>
+  <head>
+    <title>Detector de Perros Perdidos</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
-</head>
-<body>
+    <style>
+      .button-container {
+        text-align: center;
+        margin-top: 20px;
+      }
+      .button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+    </style>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1001.0.min.js"></script>
+  </head>
+  <body>
     <header>
-        <h1>Has perdido tu perro?</h1>
-        <h2>Sube tu imagen aqui para anadirlo a la base de datos, asi puede encontrar a su dueno</h2>
+        <h1>¿Has perdido a tu perrito?</h1>
+        <h2>Sube tu imagen aquí para buscar perros perdidos en tu área, así puedes encontrarlo</h2>
     </header>
     <section>
         <div class="box">
             <div class="header">
-                <img src="perro.png" alt="Perro" class="dog-image">
+                <img src="perro3.png" alt="Perro" class="dog-image">
             </div>
             <div class="button-container">
                 <input type="file" id="imageUpload" accept="image/*" style="display: none;">
@@ -35,12 +50,46 @@
             var reader = new FileReader();
             
             reader.onload = function(e) {
+                // Actualizar la imagen de vista previa
                 document.getElementById('preview').src = e.target.result;
                 document.getElementById('imagePreview').style.display = 'block';
+                
+                // Reemplazar la imagen del perro en la parte superior
+                document.querySelector('.header img').src = e.target.result;
+                
+                // Subir la imagen a S3
+                uploadToS3(file);
             }
             
             reader.readAsDataURL(file);
         });
+
+        function uploadToS3(file) {
+            // Configura las credenciales de AWS (esto debería hacerse de forma segura en un entorno de producción)
+            AWS.config.update({
+                accessKeyId: 'TU_ACCESS_KEY_ID',
+                secretAccessKey: 'TU_SECRET_ACCESS_KEY',
+                region: 'TU_REGION'
+            });
+
+            var s3 = new AWS.S3();
+            var params = {
+                Bucket: 'NOMBRE_DE_TU_BUCKET',
+                Key: 'perros-perdidos/' + Date.now() + '_' + file.name,
+                Body: file,
+                ACL: 'public-read'
+            };
+
+            s3.upload(params, function(err, data) {
+                if (err) {
+                    console.log("Error", err);
+                    alert("Error al subir la imagen. Por favor, inténtalo de nuevo.");
+                } else {
+                    console.log("Subida exitosa", data.Location);
+                    alert("Imagen subida con éxito!");
+                }
+            });
+        }
     </script>
-</body>
+  </body>
 </html>
