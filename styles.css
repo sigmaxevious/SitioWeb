@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
+
+body {
+    margin: 0; font-family: Helvetica;
+}
+header {margin-top: 30px; text-align: center; margin-left:50px}
+section{background: #ffffff;padding-top: 60px;}
+.box {background:#dbdada; 
+    width: 600px; 
+    margin: auto; 
+    margin-bottom: 60px; 
+    margin-top: 15px;
+    border-radius: 5px;
+}
+img{width: 50%;}
+div.description{padding: 15px;}
+footer{
+    margin-top: 30px; /* Ajusta este valor según tus necesidades */
+    padding: 10px 10px;
+    text-align: center;
+    background-color: #f8f9fa; /* Solo para visualización clara, puede ser eliminado */
+}
+.box:last-child {
+    margin-bottom: 30px; /* Ajusta este valor según tus necesidades */
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: calc(100% - 60px);
+}
+
+.first-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+div.button-container:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Nuevos estilos para el contenedor de botones y los botones */
+.button-container {
+    background-color: #73879c; /* Color azul */
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.button {
+    display: inline-block;
+    background-color: #ffffff; /* Fondo blanco para los botones */
+    color: #007bff; /* Texto azul */
+    text-decoration: none;
+    padding: 20px 20px;
+    margin: 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #f0f0f0; /* Cambio sutil al pasar el mouse */
+}
+
+h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 3rem;
+    color: #333;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    text-align: center;
+}
+.dog-image {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: auto;
+    width: auto;
+}

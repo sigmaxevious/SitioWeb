@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detector de perros perdidos</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Has perdido tu perro?</h1>
+        <h2>Sube tu imagen aqui para anadirlo a la base de datos, asi puede encontrar a su dueno</h2>
+    </header>
+    <section>
+        <div class="box">
+            <div class="header">
+                <img src="perro.png" alt="Perro" class="dog-image">
+            </div>
+            <div class="button-container">
+                <input type="file" id="imageUpload" accept="image/*" style="display: none;">
+                <label for="imageUpload" class="button">SUBIR IMAGEN</label>
+            </div>
+            <div id="imagePreview" style="display: none;">
+                <img id="preview" src="#" alt="Vista previa" style="max-width: 100%; margin-top: 20px;">
+            </div>
+        </div>
+    </section>
+    <footer>
+        <p>&copy; 2024 Pet Solutions</p>
+    </footer>
+
+    <script>
+        document.getElementById('imageUpload').addEventListener('change', function(event) {
+            var file = event.target.files[0];
+            var reader = new FileReader();
+            
+            reader.onload = function(e) {
+                document.getElementById('preview').src = e.target.result;
+                document.getElementById('imagePreview').style.display = 'block';
+            }
+            
+            reader.readAsDataURL(file);
+        });
+    </script>
+</body>
+</html>
