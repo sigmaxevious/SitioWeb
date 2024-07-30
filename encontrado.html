@@ -1,7 +1,25 @@
 <html>
   <head>
+    <meta charset="UTF-8">
     <title>Detector de Perros Perdidos</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
+    <style>
+      .button-container {
+        text-align: center;
+        margin-top: 20px;
+      }
+      .button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+    </style>
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1001.0.min.js"></script>
   </head>
   <body>
@@ -26,7 +44,6 @@
     <footer>
         <p>&copy; 2024 Pet Solutions</p>
     </footer>
-
     <script>
         document.getElementById('imageUpload').addEventListener('change', function(event) {
             var file = event.target.files[0];
@@ -40,38 +57,45 @@
                 // Reemplazar la imagen del perro en la parte superior
                 document.querySelector('.header img').src = e.target.result;
                 
-                // Subir la imagen a S3
-                uploadToS3(file);
+                // Llamar a la nueva función de subida
+                uploadImage(file);  // Pasar el archivo como argumento
             }
             
             reader.readAsDataURL(file);
         });
 
-        function uploadToS3(file) {
-            // Configura las credenciales de AWS (esto debería hacerse de forma segura en un entorno de producción)
-            AWS.config.update({
-                accessKeyId: 'TU_ACCESS_KEY_ID',
-                secretAccessKey: 'TU_SECRET_ACCESS_KEY',
-                region: 'TU_REGION'
-            });
+        async function uploadImage(file) {  // Recibir el archivo como argumento
+            try {
+                const reader = new FileReader();
 
-            var s3 = new AWS.S3();
-            var params = {
-                Bucket: 'NOMBRE_DE_TU_BUCKET',
-                Key: 'perros-perdidos/' + Date.now() + '_' + file.name,
-                Body: file,
-                ACL: 'public-read'
-            };
+                reader.onloadend = async () => {
+                    const base64Image = reader.result.split(',')[1]; // Obtener solo la parte base64
 
-            s3.upload(params, function(err, data) {
-                if (err) {
-                    console.log("Error", err);
-                    alert("Error al subir la imagen. Por favor, inténtalo de nuevo.");
-                } else {
-                    console.log("Subida exitosa", data.Location);
+                    const response = await fetch('https://vwarfqyudf.execute-api.us-east-2.amazonaws.com/CorBigotePabloChichanStrayDogsVER2/APIstraydogs', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            imageData: base64Image,
+                            fileName: file.name
+                        }),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const result = await response.json();
+                    console.log(result);
                     alert("Imagen subida con éxito!");
-                }
-            });
+                };
+
+                reader.readAsDataURL(file);
+            } catch (error) {
+                console.error("Error al subir la imagen:", error);
+                alert("Error al subir la imagen. Por favor, intenta de nuevo.");
+            }
         }
     </script>
   </body>

@@ -1,7 +1,25 @@
 <html>
   <head>
+    <meta charset="UTF-8">
     <title>Detector de Perros Perdidos</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
+    <style>
+      .button-container {
+        text-align: center;
+        margin-top: 20px;
+      }
+      .button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+    </style>
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1001.0.min.js"></script>
   </head>
   <body>
@@ -23,6 +41,9 @@
             </div>
         </div>
     </section>
+    <footer>
+        <p>&copy; 2024 Pet Solutions</p>
+    </footer>
 
     <script>
         document.getElementById('imageUpload').addEventListener('change', function(event) {
@@ -72,7 +93,4 @@
         }
     </script>
   </body>
-  <footer>
-    <p>&copy; 2024 Pet Solutions</p>
-</footer>
 </html>
